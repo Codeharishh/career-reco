@@ -11,6 +11,8 @@ function App() {
   const [theme, setTheme] = useState('light');
   const [history, setHistory] = useState([]);
 
+  const api = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) setTheme(savedTheme);
@@ -35,12 +37,13 @@ function App() {
     if (!input.trim()) return;
     setLoading(true);
     setRecommendation('');
+
     const fullPrompt = category
       ? `${input}. Focus on career paths in the ${category} field.`
       : input;
 
     try {
-      const res = await axios.post('http://localhost:5000/api/recommend', {
+      const res = await axios.post(`${api}/api/recommend`, {
         input: fullPrompt
       });
       setRecommendation(res.data.recommendation);
@@ -80,9 +83,9 @@ function App() {
     <div className={`app-container ${theme}`}>
       <div className="glass-box p-4 rounded-4 shadow-lg text-light">
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h3 className="fw-bold">🚀 AI Career Recommender</h3>
+          <h3 className="fw-bold">AI Career Recommender</h3>
           <button className="btn btn-sm btn-outline-light" onClick={toggleTheme}>
-            {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+            {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
           </button>
         </div>
 
@@ -113,23 +116,23 @@ function App() {
 
         {recommendation && (
           <div className="result-box p-3 rounded-3" id="recommendation-output">
-            <strong>🧠 Recommendation:</strong>
+            <strong>Recommendation:</strong>
             <p className="mt-2">{recommendation}</p>
-            <div className="d-flex gap-2">
-              <button className="btn btn-sm btn-outline-light" onClick={exportToPDF}>📄 PDF</button>
-              <button className="btn btn-sm btn-outline-light" onClick={exportToText}>📃 .txt</button>
+            <div className="d-flex gap-2 mt-2">
+              <button className="btn btn-sm btn-outline-light" onClick={exportToPDF}>Export to PDF</button>
+              <button className="btn btn-sm btn-outline-light" onClick={exportToText}>Export to .txt</button>
             </div>
           </div>
         )}
 
         {history.length > 0 && (
           <div className="mt-4">
-            <h5 className="text-light">🕘 Previous Queries</h5>
+            <h5 className="text-light">Previous Queries</h5>
             {history.slice().reverse().map((item, i) => (
               <div key={i} className="result-box p-2 rounded-3 mb-2 small">
-                <div><strong>💬 Input:</strong> {item.input}</div>
-                <div><strong>🗂️ Category:</strong> {item.category || 'N/A'}</div>
-                <div><strong>📋 Output:</strong> {item.recommendation}</div>
+                <div><strong>Input:</strong> {item.input}</div>
+                <div><strong>Category:</strong> {item.category || 'N/A'}</div>
+                <div><strong>Output:</strong> {item.recommendation}</div>
               </div>
             ))}
           </div>
