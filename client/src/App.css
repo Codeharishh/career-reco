@@ -1,0 +1,93 @@
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.app-container.light {
+  --text-color: #000;
+  --bg-color: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.15);
+  --textarea-focus: rgba(0, 255, 255, 0.5);
+  --btn-glow: #00ffff;
+  --select-bg:rgb(36, 134, 150);
+  --select-text:rgb(13, 12, 12);
+}
+
+.app-container.dark {
+  --text-color: #fff;
+  --bg-color: rgba(255, 255, 255, 0.05);
+  --border-color: rgba(255, 255, 255, 0.15);
+  --textarea-focus: rgba(0, 255, 255, 0.5);
+  --btn-glow: #00ffff;
+  --select-bg:rgb(36, 134, 150);
+  --select-text:rgb(251, 247, 247);
+}
+
+.app-container {
+  padding: 20px;
+}
+
+/* Form + dropdown + textareas */
+.form-control,
+textarea,
+.form-select {
+  background-color: var(--select-bg);
+  color: var(--select-text);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+textarea:focus,
+.form-control:focus,
+.form-select:focus {
+  box-shadow: 0 0 10px var(--textarea-focus);
+  border-color: var(--textarea-focus);
+  outline: none;
+}
+
+.glass-box {
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(20px);
+  transition: all 0.3s ease-in-out;
+  color: var(--text-color);
+}
+
+.glass-box:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  transform: translateY(-5px);
+}
+
+.animated-textarea {
+  transition: all 0.3s ease-in-out;
+}
+
+.animated-textarea:focus {
+  box-shadow: 0 0 10px var(--textarea-focus);
+  border-color: var(--textarea-focus);
+}
+
+.glow-button {
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #00ffff;
+  background-color: transparent;
+  color: #00ffff;
+  border-radius: 8px;
+}
+
+.glow-button:hover {
+  background-color: var(--btn-glow);
+  color: #000;
+  box-shadow: 0 0 10px var(--btn-glow), 0 0 20px var(--btn-glow);
+}
+
+.result-box {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 20px;
+}
