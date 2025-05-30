@@ -8,12 +8,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// ✅ OpenRouter client
+// ✅ OpenRouter client setup
 const openai = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
   baseURL: 'https://openrouter.ai/api/v1',
   defaultHeaders: {
-    'HTTP-Referer': 'http://localhost:5173', // or your frontend URL
+    'HTTP-Referer': 'https://ai-career-recommender-git-main-sriharish-ss-projects.vercel.app', // ✅ replace with your live frontend URL
     'X-Title': 'AI Career Recommender'
   }
 });
@@ -24,9 +24,13 @@ app.post('/api/recommend', async (req, res) => {
   const userInput = req.body.input;
   console.log('📨 Received input:', userInput);
 
+  if (!userInput) {
+    return res.status(400).json({ error: 'Missing input' });
+  }
+
   try {
     const chatCompletion = await openai.chat.completions.create({
-      model: 'openai/gpt-3.5-turbo', // change model if needed
+      model: 'openai/gpt-3.5-turbo',
       messages: [
         { role: 'system', content: 'You are a career counselor.' },
         { role: 'user', content: `Suggest suitable career paths and a roadmap for this person: ${userInput}` }
@@ -40,22 +44,18 @@ app.post('/api/recommend', async (req, res) => {
   } catch (error) {
     console.error('🔴 OpenRouter Error:', error);
 
-    if (error.response) {
-      console.error('🔸 Status:', error.response.status);
-      console.error('🔸 Data:', error.response.data);
-    } else {
-      console.error('❌ No response from OpenRouter. Message:', error.message);
-    }
+    const status = error.response?.status || 500;
+    const detail = error.response?.data?.error || error.message;
 
-    res.status(500).json({
+    res.status(status).json({
       error: 'OpenRouter request failed',
-      detail: error.message
+      detail
     });
   }
 });
 
+// ✅ Required for Render
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
 });
-
