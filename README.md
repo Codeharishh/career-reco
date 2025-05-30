@@ -18,3 +18,4 @@ This is a full-stack web application that provides personalized career path reco
 - AI Integration: OpenRouter (OpenAI-compatible API)
 - Deployment: Vercel (frontend), Render or Railway (backend)
 
+preview : https://ai-career-recommender.vercel.app/
